@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed Comment Tool</title>
+    <title>Ticket Comment Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -45,6 +45,19 @@
              background-color: var(--brand-blue);
              color: white;
         }
+        .nav-btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .favorite-btn {
+            background-color: #f3f4f6;
+            color: #374151;
+            transition: all 0.2s ease-in-out;
+        }
+        .favorite-btn:hover {
+            background-color: #e5e7eb;
+            color: var(--brand-blue);
+        }
     </style>
 </head>
 <body class="bg-white flex items-center justify-center min-h-screen p-4">
@@ -52,9 +65,92 @@
     <div class="w-full max-w-2xl bg-white rounded-xl border border-gray-200 p-6 md:p-8">
         
         <div class="text-center mb-6">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Fixed Comment Tool</h1>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Comment Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #006BEA;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .step-container {
+            display: none;
+        }
+        .step-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .option-btn, .checkbox-label {
+            transition: all 0.2s ease-in-out;
+            border: 2px solid #e5e7eb;
+        }
+        .option-btn:hover, .checkbox-label:hover {
+            border-color: var(--brand-blue);
+            background-color: rgba(0, 107, 234, 0.05);
+            transform: translateY(-2px);
+        }
+        input[type="checkbox"]:checked + .checkbox-label, input[type="radio"]:checked + .checkbox-label {
+             border-color: var(--brand-blue);
+             background-color: rgba(0, 107, 234, 0.1);
+        }
+        .copy-btn.copied {
+            background-color: #22c55e;
+            color: white;
+        }
+        .nav-btn {
+             background-color: var(--brand-blue);
+             color: white;
+        }
+        .nav-btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .favorite-btn {
+            background-color: #f3f4f6;
+            color: #374151;
+            transition: all 0.2s ease-in-out;
+        }
+        .favorite-btn:hover {
+            background-color: #e5e7eb;
+            color: var(--brand-blue);
+        }
+    </style>
+</head>
+<body class="bg-white flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl bg-white rounded-xl border border-gray-200 p-6 md:p-8">
+        
+        <div class="text-center mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Interactive Comment Wizard</h1>
             <p class="text-gray-500 mt-1">Answer the questions to generate the correct ticket comment.</p>
         </div>
+
+        <!-- SR Number Input -->
+        <div class="mb-6">
+            <label for="sr-number" class="block text-sm font-medium text-gray-700">Service Request (SR) Number (Optional)</label>
+            <input type="text" id="sr-number" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter SR number...">
+        </div>
+
+        <!-- Favorites Section -->
+        <div class="mb-6">
+            <h3 class="text-sm font-medium text-gray-500 mb-2">Most Used:</h3>
+            <div id="favorites-container" class="flex flex-wrap gap-2">
+                <!-- Favorite buttons will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <hr class="mb-6">
 
         <!-- Step 1: Main Outcome -->
         <div id="step-1" class="step-container active">
@@ -70,11 +166,15 @@
         
         <!-- Final Output Area -->
         <div id="output-container" class="step-container mt-6">
-            <h2 id="output-title" class="font-semibold text-lg text-gray-800 mb-2">Final Comment:</h2>
-            <div class="relative">
-                <textarea id="output-desc" rows="4" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50" readonly></textarea>
-                <button id="copy-btn" class="absolute top-2 right-2 bg-gray-200 text-gray-600 hover:bg-gray-300 font-semibold py-1 px-3 rounded-md text-sm transition-colors duration-200 copy-btn">Copy</button>
+            <div id="ticket-type-reminder" class="hidden mb-4 p-3 bg-blue-50 border-l-4 border-blue-400">
+                <p class="font-semibold text-blue-800">Recommended Ticket Type:</p>
+                <p id="ticket-type-text" class="text-blue-700"></p>
             </div>
+            <div class="flex justify-between items-center mb-2">
+                <h2 id="output-title" class="font-semibold text-lg text-gray-800">Final Comment:</h2>
+                <button id="copy-btn" class="bg-gray-200 text-gray-600 hover:bg-gray-300 font-semibold py-1 px-3 rounded-md text-sm transition-colors duration-200 copy-btn">Copy</button>
+            </div>
+            <textarea id="output-desc" rows="4" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50" readonly></textarea>
         </div>
         
         <!-- Navigation -->
@@ -87,59 +187,65 @@
 
     <script>
         // --- DATA ---
+        const favorites = ["Education", "Software Update", "Accessory Exchange"];
         const commentWizardData = {
             "Education": {
                 type: 'dynamic',
-                template: "(SR: xxxxxxxx) [{status}] + [Customer complaint: {symptoms}] + [{status_details}: {solution}]",
+                ticketType: 'Education',
+                template: "(SR: {sr_number}) [Customer complaint: {symptoms}] + [Frequency: {frequency}] + [{status_details}: {solution}]",
                 prompts: [
                     { id: 'symptoms', title: "Which symptoms did the customer report?", type: 'checkbox', options: ["Device Use", "Settings", "Cleaning", "App", "Network", "Memory", "Camera", "Battery", "Reboot", "Other"] },
+                    { id: 'frequency', title: "How often does the issue occur?", type: 'radio', options: ["Always", "Sometimes", "Intermittent"] },
                     { id: 'status', title: "Was the issue resolved?", type: 'radio', options: ["Solved", "Unsolved"] },
                     { id: 'solution', title: "What was the solution or advice given?", type: 'textarea', placeholder: "e.g., Explained how to clear cache..." }
                 ]
             },
             "Software Update": {
                 type: 'dynamic',
-                template: "(SR: xxxxxxxx) Software update [{status}] + [Symptom: {symptoms}] + [Comment: {solution}]",
+                ticketType: 'Smart Upgrade',
+                template: "(SR: {sr_number}) Software update [{status}] + [Symptom: {symptoms}] + [Frequency: {frequency}] + [Comment: {solution}]",
                 prompts: [
                     { id: 'symptoms', title: "What was the related symptom?", type: 'radio', options: ["App", "Network", "Memory", "Camera", "Battery", "Reboot", "Other"] },
+                    { id: 'frequency', title: "How often does the issue occur?", type: 'radio', options: ["Always", "Sometimes", "Intermittent"] },
                     { id: 'status', title: "Was the issue resolved by the update?", type: 'radio', options: ["Solved", "Unsolved"] },
                     { id: 'solution', title: "Add a brief comment on the outcome.", type: 'textarea', placeholder: "e.g., Issue resolved after update..." }
                 ]
             },
             "Accessory Exchange": {
                 type: 'static',
+                ticketType: 'Repair Result Explanation',
                 prompt: "Which accessory was exchanged?",
                 options: {
-                    "Cable USB A - USB Micro White": "(SR: xxxxxxxx) Cable USB A - USB Micro White | GH39-01801B",
-                    "Cable USB A - USB C": "(SR: xxxxxxxx) Cable USB A - USB C | GH39-01949A",
-                    "Cable USB C - USB C": "(SR: xxxxxxxx) Cable USB C - USB C | GH39-02077A",
-                    "Black Fast Charger USB A": "(SR: xxxxxxxx) Black Fast Charger USB A | GH44-02950A",
-                    "Black Super-Fast Charger USB C": "(SR: xxxxxxxx) Black Super-Fast Charger USB C | GH44-03053A",
-                    "Standard Headset Black": "(SR: xxxxxxxx) Standard Headset Black | GH59-15061A",
-                    "AKG Headset USB C": "(SR: xxxxxxxx) AKG Headset USB C | GH59-15252A",
+                    "Cable USB A - USB Micro White": "(SR: {sr_number}) Cable USB A - USB Micro White | GH39-01801B",
+                    "Cable USB A - USB C": "(SR: {sr_number}) Cable USB A - USB C | GH39-01949A",
+                    "Cable USB C - USB C": "(SR: {sr_number}) Cable USB C - USB C | GH39-02077A",
+                    "Black Fast Charger USB A": "(SR: {sr_number}) Black Fast Charger USB A | GH44-02950A",
+                    "Black Super-Fast Charger USB C": "(SR: {sr_number}) Black Super-Fast Charger USB C | GH44-03053A",
+                    "Standard Headset Black": "(SR: {sr_number}) Standard Headset Black | GH59-15061A",
+                    "AKG Headset USB C": "(SR: {sr_number}) AKG Headset USB C | GH59-15252A",
                 }
             },
-            "Loyalty Solution": { type: 'static', comment: "(SR: xxxxxxxx) [Trade-Up / EPP Sale] + [New Model]" },
-            "Data Service": {
-                 type: 'static',
-                 prompt: "Which data service was performed?",
-                 options: {
-                    "Smart Switch": "(SR: xxxxxxxx) Smart Switch",
-                    
-                 }
-            },
+            "Loyalty Solution": { type: 'static', ticketType: 'Loyalty Solution', comment: "(SR: {sr_number}) [Trade-Up / EPP Sale] + [New Model]" },
             "Premium Service (Paid)": {
                 type: 'static',
+                ticketType: 'Close With Other Reason',
                 prompt: "Which premium service was performed?",
                 options: {
-                    "Data Transfer (Paid)": "(SR: xxxxxxxx) Paid Premium Service: Data transfer 15,-",
-                    "Device Health Care": "(SR: xxxxxxxx) Paid Premium Service: Device health care 15,-",
-                    "USB port cleaning": "(SR: xxxxxxxx) Paid Premium Service: USB port cleaning 15,-",
-                    "Buds Cleaning": "(SR: xxxxxxxx) Paid Premium Service: OOW buds cleaning 30,-",
+                    "Device Health Care": "(SR: {sr_number}) Paid Premium Service: Device health care 15,-",
+                    "Buds Cleaning": "(SR: {sr_number}) Paid Premium Service: OOW buds cleaning 30,-",
+                    "Smart Switch": "(SR: {sr_number}) Smart Switch",
+                    "Data Transfer (Paid)": "(SR: {sr_number}) Paid Premium Service: Data transfer 15,-"
                 }
             },
-            "Leadpassing": { type: 'static', comment: "(SR: xxxxxxxx) Clearcoat Leadpassing" },
-            "Reschedule Appointment": { type: 'static', comment: "(SR: xxxxxxxx) Reschedule: [new date] + [Reason]" }
+            "Leadpassing": { type: 'static', ticketType: 'Leadpassing', comment: "(SR: {sr_number}) Clearcoat Leadpassing" },
+            "Close With Other Reason": {
+                type: 'static',
+                ticketType: 'Close With Other Reason',
+                prompt: "What is the reason for closing?",
+                options: {
+                    "Reschedule Appointment": "(SR: {sr_number}) Reschedule: [new date] + [Reason]"
+                }
+            }
         };
 
         // --- STATE ---
@@ -147,6 +253,8 @@
         let currentDynamicStep = 0;
 
         // --- DOM ELEMENTS ---
+        const srNumberInput = document.getElementById('sr-number');
+        const favoritesContainer = document.getElementById('favorites-container');
         const step1 = document.getElementById('step-1');
         const step2 = document.getElementById('step-2');
         const step1Options = document.getElementById('step-1-options');
@@ -158,8 +266,21 @@
         const nextBtn = document.getElementById('next-btn');
         const copyBtn = document.getElementById('copy-btn');
         const outputTitle = document.getElementById('output-title');
+        const ticketTypeReminder = document.getElementById('ticket-type-reminder');
+        const ticketTypeText = document.getElementById('ticket-type-text');
 
         // --- CORE LOGIC ---
+        function renderFavorites() {
+            favoritesContainer.innerHTML = '';
+            favorites.forEach(key => {
+                const button = document.createElement('button');
+                button.className = 'favorite-btn py-1 px-3 rounded-full text-sm font-semibold';
+                button.textContent = key;
+                button.dataset.key = key;
+                favoritesContainer.appendChild(button);
+            });
+        }
+
         function renderStep1() {
             step1Options.innerHTML = '';
             for (const key in commentWizardData) {
@@ -171,25 +292,21 @@
             }
         }
 
-        function handleStep1Click(event) {
-            const button = event.target.closest('.option-btn');
-            if (!button) return;
-
-            const key = button.dataset.key;
+        function handleStep1Click(key) {
             wizardState.mainCategory = key;
             const selection = commentWizardData[key];
 
             if (selection.type === 'static' && selection.comment) {
-                showOutput(selection.comment, "Final Comment:");
+                showOutput(selection.comment, "Final Comment:", selection.ticketType);
             } else if (selection.type === 'static' && selection.options) {
-                renderStaticStep2(selection.prompt, selection.options);
+                renderStaticStep2(selection.prompt, selection.options, selection.ticketType);
                 goToStep(2);
             } else if (selection.type === 'dynamic') {
                 startDynamicFlow();
             }
         }
         
-        function renderStaticStep2(prompt, options) {
+        function renderStaticStep2(prompt, options, ticketType) {
             step2Title.textContent = `2. ${prompt}`;
             step2Options.innerHTML = '';
             for (const subKey in options) {
@@ -197,6 +314,7 @@
                 button.className = 'option-btn p-4 rounded-lg text-left font-semibold text-gray-700';
                 button.textContent = subKey;
                 button.dataset.comment = options[subKey];
+                button.dataset.ticketType = ticketType;
                 step2Options.appendChild(button);
             }
         }
@@ -205,14 +323,19 @@
             const button = event.target.closest('.option-btn');
             if (!button) return;
             const comment = button.dataset.comment;
-            showOutput(comment, "Final Comment:");
+            const ticketType = button.dataset.ticketType;
+            showOutput(comment, "Final Comment:", ticketType);
         }
 
         function startDynamicFlow() {
             currentDynamicStep = 0;
-            wizardState.symptoms = [];
-            wizardState.status = '';
-            wizardState.solution = '';
+            wizardState = {
+                mainCategory: wizardState.mainCategory,
+                symptoms: [],
+                status: '',
+                solution: '',
+                frequency: ''
+            };
             renderDynamicStep();
             goToStep(2);
         }
@@ -234,7 +357,6 @@
                     step2Options.appendChild(label);
                 });
                 
-                // Add logic for 'Other' text area
                 if (promptConfig.options.includes("Other")) {
                     const otherTextarea = document.createElement('textarea');
                     otherTextarea.id = 'other-symptom-text';
@@ -242,14 +364,6 @@
                     otherTextarea.rows = 2;
                     otherTextarea.placeholder = 'Please specify other symptom...';
                     step2Options.appendChild(otherTextarea);
-
-                    step2Options.addEventListener('change', (e) => {
-                        if (e.target.value === 'Other' && e.target.checked) {
-                            otherTextarea.classList.remove('hidden');
-                        } else if (e.target.value === 'Other' && !e.target.checked) {
-                            otherTextarea.classList.add('hidden');
-                        }
-                    });
                 }
 
             } else if (promptConfig.type === 'textarea') {
@@ -258,6 +372,7 @@
             
             nextBtn.style.display = 'block';
             nextBtn.textContent = (currentDynamicStep === prompts.length - 1) ? 'Generate Comment' : 'Next';
+            validateStep(); // Validate on render
         }
 
         function handleNextClick() {
@@ -268,16 +383,16 @@
                 let symptoms = Array.from(document.querySelectorAll(`input[name="symptoms"]:checked`)).map(el => el.value);
                 if (symptoms.includes('Other')) {
                     const otherText = document.getElementById('other-symptom-text').value;
-                    // Replace 'Other' with the actual text, if provided
                     symptoms = symptoms.filter(s => s !== 'Other');
-                    if (otherText) {
-                        symptoms.push(otherText);
-                    }
+                    if (otherText) symptoms.push(otherText);
                 }
                 wizardState.symptoms = symptoms;
             } else if (promptConfig.id === 'status') {
                 const checked = document.querySelector(`input[name="status"]:checked`);
                 wizardState.status = checked ? checked.value : '';
+            } else if (promptConfig.id === 'frequency') {
+                const checked = document.querySelector(`input[name="frequency"]:checked`);
+                wizardState.frequency = checked ? checked.value : '';
             } else if (promptConfig.id === 'solution') {
                 wizardState.solution = document.getElementById('dynamic-textarea').value;
             }
@@ -291,10 +406,11 @@
         }
         
         function generateDynamicComment() {
-            const template = commentWizardData[wizardState.mainCategory].template;
-            let finalComment = template
+            const config = commentWizardData[wizardState.mainCategory];
+            let finalComment = config.template
                 .replace('{symptoms}', wizardState.symptoms.join(', '))
                 .replace('{status}', wizardState.status)
+                .replace('{frequency}', wizardState.frequency)
                 .replace('{solution}', wizardState.solution);
             
             if (wizardState.status === 'Solved') {
@@ -303,12 +419,25 @@
                 finalComment = finalComment.replace('{status_details}', 'Unsolved');
             }
             
-            showOutput(finalComment, "Generated Comment:");
+            showOutput(finalComment, "Generated Comment:", config.ticketType);
+        }
+        
+        function formatCommentWithSR(comment) {
+            const srNumber = srNumberInput.value.trim() || 'xxxxxxxx';
+            return comment.replace('{sr_number}', srNumber);
         }
 
-        function showOutput(comment, title) {
-            outputDesc.value = comment;
+        function showOutput(commentTemplate, title, ticketType) {
+            outputDesc.value = formatCommentWithSR(commentTemplate);
             outputTitle.textContent = title;
+
+            if (ticketType) {
+                ticketTypeText.textContent = ticketType;
+                ticketTypeReminder.classList.remove('hidden');
+            } else {
+                ticketTypeReminder.classList.add('hidden');
+            }
+
             document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
             outputContainer.classList.add('active');
             backBtn.style.display = 'block';
@@ -329,6 +458,8 @@
             backBtn.style.display = 'none';
             nextBtn.style.display = 'none';
             outputDesc.value = '';
+            srNumberInput.value = '';
+            ticketTypeReminder.classList.add('hidden');
             wizardState = {};
         }
 
@@ -354,14 +485,424 @@
             document.body.removeChild(textArea);
         }
 
+        function validateStep() {
+            const prompts = commentWizardData[wizardState.mainCategory]?.prompts;
+            if (!prompts) return;
+            
+            const promptConfig = prompts[currentDynamicStep];
+            let isValid = false;
+
+            if (promptConfig.type === 'checkbox' || promptConfig.type === 'radio') {
+                if (document.querySelector(`input[name="${promptConfig.id}"]:checked`)) {
+                    isValid = true;
+                }
+            } else if (promptConfig.type === 'textarea') {
+                if (document.getElementById('dynamic-textarea').value.trim() !== '') {
+                    isValid = true;
+                }
+            }
+            nextBtn.disabled = !isValid;
+        }
+
         // --- EVENT LISTENERS ---
-        step1Options.addEventListener('click', handleStep1Click);
+        step1Options.addEventListener('click', (e) => handleStep1Click(e.target.closest('.option-btn')?.dataset.key));
+        favoritesContainer.addEventListener('click', (e) => handleStep1Click(e.target.closest('.favorite-btn')?.dataset.key));
         step2Options.addEventListener('click', handleStep2Click);
+        step2Options.addEventListener('input', validateStep); // For textareas and radio/checkbox changes
         backBtn.addEventListener('click', resetWizard);
         nextBtn.addEventListener('click', handleNextClick);
         copyBtn.addEventListener('click', copyToClipboard);
 
         // --- STARTUP ---
+        renderFavorites();
+        renderStep1();
+
+    </script>
+</body>
+</html>
+</h1>
+            <p class="text-gray-500 mt-1">Answer the questions to generate the correct ticket comment.</p>
+        </div>
+
+        <!-- SR Number Input -->
+        <div class="mb-6">
+            <label for="sr-number" class="block text-sm font-medium text-gray-700">Service Request (SR) Number (Optional)</label>
+            <input type="text" id="sr-number" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter SR number...">
+        </div>
+
+        <!-- Favorites Section -->
+        <div class="mb-6">
+            <h3 class="text-sm font-medium text-gray-500 mb-2">Most Used:</h3>
+            <div id="favorites-container" class="flex flex-wrap gap-2">
+                <!-- Favorite buttons will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <hr class="mb-6">
+
+        <!-- Step 1: Main Outcome -->
+        <div id="step-1" class="step-container active">
+            <h2 class="font-semibold text-lg text-gray-800 mb-4">1. What was the main outcome of this service ticket?</h2>
+            <div id="step-1-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- Step 2: Dynamic Step (Symptoms, Status, etc.) -->
+        <div id="step-2" class="step-container">
+            <h2 id="step-2-title" class="font-semibold text-lg text-gray-800 mb-4"></h2>
+            <div id="step-2-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+        
+        <!-- Final Output Area -->
+        <div id="output-container" class="step-container mt-6">
+            <div id="ticket-type-reminder" class="hidden mb-4 p-3 bg-blue-50 border-l-4 border-blue-400">
+                <p class="font-semibold text-blue-800">Recommended Ticket Type:</p>
+                <p id="ticket-type-text" class="text-blue-700"></p>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <h2 id="output-title" class="font-semibold text-lg text-gray-800">Final Comment:</h2>
+                <button id="copy-btn" class="bg-gray-200 text-gray-600 hover:bg-gray-300 font-semibold py-1 px-3 rounded-md text-sm transition-colors duration-200 copy-btn">Copy</button>
+            </div>
+            <textarea id="output-desc" rows="4" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50" readonly></textarea>
+        </div>
+        
+        <!-- Navigation -->
+        <div id="nav-container" class="mt-6 pt-6 border-t border-gray-200 flex gap-4">
+             <button id="back-btn" class="w-full bg-gray-100 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors duration-200" style="display: none;">Back</button>
+             <button id="next-btn" class="w-full nav-btn font-semibold py-3 px-4 rounded-lg transition-colors duration-200" style="display: none;">Next</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        const favorites = ["Education", "Software Update", "Accessory Exchange"];
+        const commentWizardData = {
+            "Education": {
+                type: 'dynamic',
+                ticketType: 'Education',
+                template: "(SR: {sr_number}) [Customer complaint: {symptoms}] + [Frequency: {frequency}] + [{status_details}: {solution}]",
+                prompts: [
+                    { id: 'symptoms', title: "Which symptoms did the customer report?", type: 'checkbox', options: ["Device Use", "Settings", "Cleaning", "App", "Network", "Memory", "Camera", "Battery", "Reboot", "Other"] },
+                    { id: 'frequency', title: "How often does the issue occur?", type: 'radio', options: ["Always", "Sometimes", "Intermittent"] },
+                    { id: 'status', title: "Was the issue resolved?", type: 'radio', options: ["Solved", "Unsolved"] },
+                    { id: 'solution', title: "What was the solution or advice given?", type: 'textarea', placeholder: "e.g., Explained how to clear cache..." }
+                ]
+            },
+            "Software Update": {
+                type: 'dynamic',
+                ticketType: 'Smart Upgrade',
+                template: "(SR: {sr_number}) Software update [{status}] + [Symptom: {symptoms}] + [Frequency: {frequency}] + [Comment: {solution}]",
+                prompts: [
+                    { id: 'symptoms', title: "What was the related symptom?", type: 'radio', options: ["App", "Network", "Memory", "Camera", "Battery", "Reboot", "Other"] },
+                    { id: 'frequency', title: "How often does the issue occur?", type: 'radio', options: ["Always", "Sometimes", "Intermittent"] },
+                    { id: 'status', title: "Was the issue resolved by the update?", type: 'radio', options: ["Solved", "Unsolved"] },
+                    { id: 'solution', title: "Add a brief comment on the outcome.", type: 'textarea', placeholder: "e.g., Issue resolved after update..." }
+                ]
+            },
+            "Accessory Exchange": {
+                type: 'static',
+                ticketType: 'Repair Result Explanation',
+                prompt: "Which accessory was exchanged?",
+                options: {
+                    "Cable USB A - USB Micro White": "(SR: {sr_number}) Cable USB A - USB Micro White | GH39-01801B",
+                    "Cable USB A - USB C": "(SR: {sr_number}) Cable USB A - USB C | GH39-01949A",
+                    "Cable USB C - USB C": "(SR: {sr_number}) Cable USB C - USB C | GH39-02077A",
+                    "Black Fast Charger USB A": "(SR: {sr_number}) Black Fast Charger USB A | GH44-02950A",
+                    "Black Super-Fast Charger USB C": "(SR: {sr_number}) Black Super-Fast Charger USB C | GH44-03053A",
+                    "Standard Headset Black": "(SR: {sr_number}) Standard Headset Black | GH59-15061A",
+                    "AKG Headset USB C": "(SR: {sr_number}) AKG Headset USB C | GH59-15252A",
+                }
+            },
+            "Loyalty Solution": { type: 'static', ticketType: 'VIP Service Registration', comment: "(SR: {sr_number}) [Trade-Up / EPP Sale] + [New Model]" },
+            "Premium Service (Paid)": {
+                type: 'static',
+                ticketType: 'Close With Other Reason',
+                prompt: "Which premium service was performed?",
+                options: {
+                    "Device Health Care": "(SR: {sr_number}) Paid Premium Service: Device health care 15,-",
+                    "Buds Cleaning": "(SR: {sr_number}) Paid Premium Service: OOW buds cleaning 30,-",
+                    "Smart Switch": "(SR: {sr_number}) Smart Switch",
+                    "Data Transfer (Paid)": "(SR: {sr_number}) Paid Premium Service: Data transfer 15,-"
+                }
+            },
+            "Leadpassing": { type: 'static', ticketType: 'Discount Coupon', comment: "(SR: {sr_number}) Clearcoat Leadpassing" },
+            "Close With Other Reason": {
+                type: 'static',
+                ticketType: 'Close With Other Reason',
+                prompt: "What is the reason for closing?",
+                options: {
+                    "Reschedule Appointment": "(SR: {sr_number}) Reschedule: [new date] + [Reason]"
+                }
+            }
+        };
+
+        // --- STATE ---
+        let wizardState = {};
+        let currentDynamicStep = 0;
+
+        // --- DOM ELEMENTS ---
+        const srNumberInput = document.getElementById('sr-number');
+        const favoritesContainer = document.getElementById('favorites-container');
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const step1Options = document.getElementById('step-1-options');
+        const step2Title = document.getElementById('step-2-title');
+        const step2Options = document.getElementById('step-2-options');
+        const outputContainer = document.getElementById('output-container');
+        const outputDesc = document.getElementById('output-desc');
+        const backBtn = document.getElementById('back-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const outputTitle = document.getElementById('output-title');
+        const ticketTypeReminder = document.getElementById('ticket-type-reminder');
+        const ticketTypeText = document.getElementById('ticket-type-text');
+
+        // --- CORE LOGIC ---
+        function renderFavorites() {
+            favoritesContainer.innerHTML = '';
+            favorites.forEach(key => {
+                const button = document.createElement('button');
+                button.className = 'favorite-btn py-1 px-3 rounded-full text-sm font-semibold';
+                button.textContent = key;
+                button.dataset.key = key;
+                favoritesContainer.appendChild(button);
+            });
+        }
+
+        function renderStep1() {
+            step1Options.innerHTML = '';
+            for (const key in commentWizardData) {
+                const button = document.createElement('button');
+                button.className = 'option-btn p-4 rounded-lg text-left font-semibold text-gray-700';
+                button.textContent = key;
+                button.dataset.key = key;
+                step1Options.appendChild(button);
+            }
+        }
+
+        function handleStep1Click(key) {
+            wizardState.mainCategory = key;
+            const selection = commentWizardData[key];
+
+            if (selection.type === 'static' && selection.comment) {
+                showOutput(selection.comment, "Final Comment:", selection.ticketType);
+            } else if (selection.type === 'static' && selection.options) {
+                renderStaticStep2(selection.prompt, selection.options, selection.ticketType);
+                goToStep(2);
+            } else if (selection.type === 'dynamic') {
+                startDynamicFlow();
+            }
+        }
+        
+        function renderStaticStep2(prompt, options, ticketType) {
+            step2Title.textContent = `2. ${prompt}`;
+            step2Options.innerHTML = '';
+            for (const subKey in options) {
+                const button = document.createElement('button');
+                button.className = 'option-btn p-4 rounded-lg text-left font-semibold text-gray-700';
+                button.textContent = subKey;
+                button.dataset.comment = options[subKey];
+                button.dataset.ticketType = ticketType;
+                step2Options.appendChild(button);
+            }
+        }
+
+        function handleStep2Click(event) {
+            const button = event.target.closest('.option-btn');
+            if (!button) return;
+            const comment = button.dataset.comment;
+            const ticketType = button.dataset.ticketType;
+            showOutput(comment, "Final Comment:", ticketType);
+        }
+
+        function startDynamicFlow() {
+            currentDynamicStep = 0;
+            wizardState = {
+                mainCategory: wizardState.mainCategory,
+                symptoms: [],
+                status: '',
+                solution: '',
+                frequency: ''
+            };
+            renderDynamicStep();
+            goToStep(2);
+        }
+
+        function renderDynamicStep() {
+            const prompts = commentWizardData[wizardState.mainCategory].prompts;
+            const promptConfig = prompts[currentDynamicStep];
+            
+            step2Title.textContent = `${currentDynamicStep + 2}. ${promptConfig.title}`;
+            step2Options.innerHTML = '';
+
+            if (promptConfig.type === 'checkbox' || promptConfig.type === 'radio') {
+                promptConfig.options.forEach(opt => {
+                    const label = document.createElement('label');
+                    label.innerHTML = `
+                        <input type="${promptConfig.type}" name="${promptConfig.id}" value="${opt}" class="sr-only">
+                        <div class="checkbox-label p-4 rounded-lg text-left font-semibold text-gray-700 cursor-pointer">${opt}</div>
+                    `;
+                    step2Options.appendChild(label);
+                });
+                
+                if (promptConfig.options.includes("Other")) {
+                    const otherTextarea = document.createElement('textarea');
+                    otherTextarea.id = 'other-symptom-text';
+                    otherTextarea.className = 'w-full p-3 border border-gray-300 rounded-lg col-span-full mt-2 hidden';
+                    otherTextarea.rows = 2;
+                    otherTextarea.placeholder = 'Please specify other symptom...';
+                    step2Options.appendChild(otherTextarea);
+                }
+
+            } else if (promptConfig.type === 'textarea') {
+                step2Options.innerHTML = `<textarea id="dynamic-textarea" class="w-full p-3 border border-gray-300 rounded-lg col-span-full" rows="3" placeholder="${promptConfig.placeholder || ''}"></textarea>`;
+            }
+            
+            nextBtn.style.display = 'block';
+            nextBtn.textContent = (currentDynamicStep === prompts.length - 1) ? 'Generate Comment' : 'Next';
+            validateStep(); // Validate on render
+        }
+
+        function handleNextClick() {
+            const prompts = commentWizardData[wizardState.mainCategory].prompts;
+            const promptConfig = prompts[currentDynamicStep];
+
+            if (promptConfig.id === 'symptoms') {
+                let symptoms = Array.from(document.querySelectorAll(`input[name="symptoms"]:checked`)).map(el => el.value);
+                if (symptoms.includes('Other')) {
+                    const otherText = document.getElementById('other-symptom-text').value;
+                    symptoms = symptoms.filter(s => s !== 'Other');
+                    if (otherText) symptoms.push(otherText);
+                }
+                wizardState.symptoms = symptoms;
+            } else if (promptConfig.id === 'status') {
+                const checked = document.querySelector(`input[name="status"]:checked`);
+                wizardState.status = checked ? checked.value : '';
+            } else if (promptConfig.id === 'frequency') {
+                const checked = document.querySelector(`input[name="frequency"]:checked`);
+                wizardState.frequency = checked ? checked.value : '';
+            } else if (promptConfig.id === 'solution') {
+                wizardState.solution = document.getElementById('dynamic-textarea').value;
+            }
+
+            if (currentDynamicStep < prompts.length - 1) {
+                currentDynamicStep++;
+                renderDynamicStep();
+            } else {
+                generateDynamicComment();
+            }
+        }
+        
+        function generateDynamicComment() {
+            const config = commentWizardData[wizardState.mainCategory];
+            let finalComment = config.template
+                .replace('{symptoms}', wizardState.symptoms.join(', '))
+                .replace('{status}', wizardState.status)
+                .replace('{frequency}', wizardState.frequency)
+                .replace('{solution}', wizardState.solution);
+            
+            if (wizardState.status === 'Solved') {
+                finalComment = finalComment.replace('{status_details}', 'Solved');
+            } else {
+                finalComment = finalComment.replace('{status_details}', 'Unsolved');
+            }
+            
+            showOutput(finalComment, "Generated Comment:", config.ticketType);
+        }
+        
+        function formatCommentWithSR(comment) {
+            const srNumber = srNumberInput.value.trim() || 'xxxxxxxx';
+            return comment.replace('{sr_number}', srNumber);
+        }
+
+        function showOutput(commentTemplate, title, ticketType) {
+            outputDesc.value = formatCommentWithSR(commentTemplate);
+            outputTitle.textContent = title;
+
+            if (ticketType) {
+                ticketTypeText.textContent = ticketType;
+                ticketTypeReminder.classList.remove('hidden');
+            } else {
+                ticketTypeReminder.classList.add('hidden');
+            }
+
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            outputContainer.classList.add('active');
+            backBtn.style.display = 'block';
+            nextBtn.style.display = 'none';
+            copyBtn.textContent = 'Copy';
+            copyBtn.classList.remove('copied');
+        }
+
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+            backBtn.style.display = 'block';
+        }
+
+        function resetWizard() {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            step1.classList.add('active');
+            backBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            outputDesc.value = '';
+            srNumberInput.value = '';
+            ticketTypeReminder.classList.add('hidden');
+            wizardState = {};
+        }
+
+        function copyToClipboard() {
+            if (!outputDesc.value) return;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = outputDesc.value;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function validateStep() {
+            const prompts = commentWizardData[wizardState.mainCategory]?.prompts;
+            if (!prompts) return;
+            
+            const promptConfig = prompts[currentDynamicStep];
+            let isValid = false;
+
+            if (promptConfig.type === 'checkbox' || promptConfig.type === 'radio') {
+                if (document.querySelector(`input[name="${promptConfig.id}"]:checked`)) {
+                    isValid = true;
+                }
+            } else if (promptConfig.type === 'textarea') {
+                if (document.getElementById('dynamic-textarea').value.trim() !== '') {
+                    isValid = true;
+                }
+            }
+            nextBtn.disabled = !isValid;
+        }
+
+        // --- EVENT LISTENERS ---
+        step1Options.addEventListener('click', (e) => handleStep1Click(e.target.closest('.option-btn')?.dataset.key));
+        favoritesContainer.addEventListener('click', (e) => handleStep1Click(e.target.closest('.favorite-btn')?.dataset.key));
+        step2Options.addEventListener('click', handleStep2Click);
+        step2Options.addEventListener('input', validateStep); // For textareas and radio/checkbox changes
+        backBtn.addEventListener('click', resetWizard);
+        nextBtn.addEventListener('click', handleNextClick);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // --- STARTUP ---
+        renderFavorites();
         renderStep1();
 
     </script>
