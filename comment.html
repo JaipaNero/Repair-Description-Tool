@@ -159,7 +159,7 @@
                     "AKG Headset USB C": "(SR: {sr_number}) AKG Headset USB C | GH59-15252A",
                 }
             },
-            "Loyalty Solution": { type: 'static', ticketType: 'Loyalty Solution', comment: "(SR: {sr_number}) [Trade-Up / EPP Sale] + [New Model]" },
+            "Loyalty Solution": { type: 'static', ticketType: 'VIP Service Registration', comment: "(SR: {sr_number}) [Trade-Up / EPP Sale] + [New Model]" },
             "Premium Service (Paid)": {
                 type: 'static',
                 ticketType: 'Close With Other Reason',
@@ -177,7 +177,8 @@
                 ticketType: 'Close With Other Reason',
                 prompt: "What is the reason for closing?",
                 options: {
-                    "Reschedule Appointment": "(SR: {sr_number}) Reschedule: [new date] + [Reason]"
+                    "Reschedule Appointment": "(SR: {sr_number}) Reschedule: [new date] + [Reason]",
+                    "Other": "(SR: {sr_number}) + [Reason]"
                 }
             }
         };
