@@ -13,21 +13,13 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        .accordion-header {
-            transition: background-color 0.2s ease-in-out;
+        .category-btn {
+            transition: all 0.2s ease-in-out;
         }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
-        }
-        .accordion-item.active .accordion-content {
-            max-height: 1000px; /* Large enough to fit content */
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-        .accordion-item.active .accordion-arrow {
-            transform: rotate(180deg);
+        .category-btn.active {
+            background-color: var(--brand-blue);
+            color: white;
+            font-weight: 600;
         }
         .copy-btn {
             background-color: #f3f4f6;
@@ -52,16 +44,24 @@
             <p class="text-gray-500 mt-1">Quickly copy standard comments for your tickets.</p>
         </div>
 
-        <!-- Accordion Container -->
-        <div id="comments-container" class="space-y-2">
-            <!-- Comments will be dynamically inserted here -->
-        </div>
+        <!-- Main Layout Container -->
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+            
+            <!-- Left Column: Category Navigation -->
+            <div id="category-nav" class="md:w-1/3 flex flex-col space-y-2">
+                <!-- Category buttons will be inserted here -->
+            </div>
 
+            <!-- Right Column: Comments Display -->
+            <div id="comments-display" class="md:w-2/3">
+                <!-- Comments for the selected category will be inserted here -->
+            </div>
+
+        </div>
     </div>
 
     <script>
         // --- DATA ---
-        // This object holds all the standard comments, categorized by subject.
         const fixedComments = {
             "Education": [
                 "(SR: xxxxxxxx) [Solved/Unsolved] + [Describe Customer complaint] + [Solved: How did you solve it? / Unsolved: what did you tell the customer?]"
@@ -104,86 +104,83 @@
         };
 
         // --- DOM ELEMENTS ---
-        const commentsContainer = document.getElementById('comments-container');
+        const categoryNav = document.getElementById('category-nav');
+        const commentsDisplay = document.getElementById('comments-display');
+        let activeCategory = Object.keys(fixedComments)[0]; // Default to the first category
 
         // --- CORE LOGIC ---
-        function renderComments() {
-            commentsContainer.innerHTML = ''; // Clear existing content
+        function renderUI() {
+            renderCategories();
+            renderCommentsForCategory(activeCategory);
+        }
 
+        function renderCategories() {
+            categoryNav.innerHTML = '';
             for (const category in fixedComments) {
-                const accordionItem = document.createElement('div');
-                accordionItem.className = 'accordion-item border border-gray-200 rounded-lg';
-
-                const header = document.createElement('button');
-                header.className = 'accordion-header w-full flex justify-between items-center p-4 text-left font-semibold text-gray-700 hover:bg-gray-50';
-                header.innerHTML = `
-                    <span>${category}</span>
-                    <svg class="accordion-arrow w-5 h-5 transition-transform transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                `;
-
-                const content = document.createElement('div');
-                content.className = 'accordion-content px-4';
-                
-                const list = document.createElement('ul');
-                list.className = 'space-y-2';
-                
-                fixedComments[category].forEach(commentText => {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-md';
-                    
-                    const text = document.createElement('span');
-                    text.className = 'comment-text text-gray-800 text-sm flex-grow mr-4';
-                    text.textContent = commentText;
-
-                    const button = document.createElement('button');
-                    button.className = 'copy-btn font-semibold py-1 px-3 rounded-md text-sm flex-shrink-0';
-                    button.textContent = 'Copy';
-                    
-                    listItem.appendChild(text);
-                    listItem.appendChild(button);
-                    list.appendChild(listItem);
-                });
-
-                content.appendChild(list);
-                accordionItem.appendChild(header);
-                accordionItem.appendChild(content);
-                commentsContainer.appendChild(accordionItem);
+                const button = document.createElement('button');
+                button.className = 'category-btn w-full p-3 text-left font-semibold text-gray-700 rounded-lg hover:bg-gray-100';
+                button.textContent = category;
+                button.dataset.category = category;
+                if (category === activeCategory) {
+                    button.classList.add('active');
+                }
+                categoryNav.appendChild(button);
             }
         }
 
-        function handleContainerClick(event) {
-            const target = event.target;
+        function renderCommentsForCategory(category) {
+            commentsDisplay.innerHTML = '';
+            const list = document.createElement('ul');
+            list.className = 'space-y-2';
 
-            // Handle accordion toggle
-            const header = target.closest('.accordion-header');
-            if (header) {
-                const item = header.parentElement;
-                item.classList.toggle('active');
+            fixedComments[category].forEach(commentText => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-md border border-gray-200';
+                
+                const text = document.createElement('span');
+                text.className = 'comment-text text-gray-800 text-sm flex-grow mr-4';
+                text.textContent = commentText;
+
+                const button = document.createElement('button');
+                button.className = 'copy-btn font-semibold py-1 px-3 rounded-md text-sm flex-shrink-0';
+                button.textContent = 'Copy';
+                
+                listItem.appendChild(text);
+                listItem.appendChild(button);
+                list.appendChild(listItem);
+            });
+            commentsDisplay.appendChild(list);
+        }
+
+        function handleNavClick(event) {
+            const button = event.target.closest('.category-btn');
+            if (button) {
+                activeCategory = button.dataset.category;
+                // Update active state on buttons
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                renderCommentsForCategory(activeCategory);
             }
+        }
+        
+        let activeCopyButton = null;
 
-            // Handle copy button click
-            const copyButton = target.closest('.copy-btn');
+        function handleDisplayClick(event) {
+            const copyButton = event.target.closest('.copy-btn');
             if (copyButton) {
                 const commentText = copyButton.previousElementSibling.textContent;
                 copyToClipboard(commentText, copyButton);
             }
         }
 
-        let activeCopyButton = null; // To track the button that was clicked
-
         function copyToClipboard(text, button) {
-            // Reset the previous button if there was one
             if (activeCopyButton && activeCopyButton !== button) {
                 activeCopyButton.textContent = 'Copy';
                 activeCopyButton.classList.remove('copied');
             }
             
-            // Create a temporary textarea element to hold the text
             const textArea = document.createElement("textarea");
             textArea.value = text;
-            // Make it invisible
             textArea.style.position = "fixed";
             textArea.style.left = "-9999px";
             document.body.appendChild(textArea);
@@ -191,7 +188,6 @@
             textArea.select();
 
             try {
-                // Use the older, more compatible copy command
                 document.execCommand('copy');
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
@@ -208,19 +204,15 @@
                 console.error('Could not copy text: ', err);
             }
 
-            // Clean up the temporary element
             document.body.removeChild(textArea);
         }
 
         // --- EVENT LISTENERS ---
-        commentsContainer.addEventListener('click', handleContainerClick);
+        categoryNav.addEventListener('click', handleNavClick);
+        commentsDisplay.addEventListener('click', handleDisplayClick);
 
         // --- STARTUP ---
-        renderComments();
-        // Open the first accordion item by default
-        if (commentsContainer.firstChild) {
-            commentsContainer.firstChild.classList.add('active');
-        }
+        renderUI();
 
     </script>
 </body>
