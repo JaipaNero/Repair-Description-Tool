@@ -3,151 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Guide: Description & Comment Tools</title>
+    <title>Interactive Training: Description & Comment Generators</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --brand-blue: #006BEA;
+            --brand-green: #16a34a;
+            --brand-red: #dc2626;
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* A slightly off-white for better contrast */
+            background-color: #f3f4f6;
         }
         h2 {
             color: var(--brand-blue);
             border-bottom: 2px solid var(--brand-blue);
             padding-bottom: 0.5rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
             font-size: 1.5rem;
             font-weight: 600;
         }
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1rem;
+        .task-list-item[data-completed="true"] {
+            text-decoration: line-through;
+            color: #6b7280;
         }
-        .step-number {
-            flex-shrink: 0;
-            width: 2rem;
-            height: 2rem;
+        .task-list-item .fa-circle {
+            transition: all 0.3s ease;
+        }
+        .task-list-item[data-completed="true"] .fa-circle-check {
+            color: var(--brand-green);
+        }
+        .tab-button[aria-selected="true"] {
             background-color: var(--brand-blue);
             color: white;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin-right: 1rem;
         }
-        .best-practice {
-            background-color: #f3f4f6;
-            border-left: 4px solid var(--brand-blue);
+        .part-button[data-selected="true"] {
+            background-color: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
+        }
+        .quiz-option:hover {
+            background-color: #eef2ff;
+        }
+        .quiz-option[data-selected="true"] {
+            border-color: var(--brand-blue);
+            background-color: #e0e7ff;
+        }
+        .quiz-feedback {
+            display: none;
+        }
+        .pro-tip {
+            background-color: #fffbeb;
+            border-left: 4px solid #facc15;
+        }
+        #completion-certificate {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 10px solid var(--brand-blue);
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 sm:p-6 md:p-8">
 
-    <div class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-xl border border-gray-200">
+    <div class="max-w-5xl mx-auto bg-white p-6 md:p-10 rounded-2xl shadow-lg border border-gray-200">
 
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Training Guide</h1>
-            <p class="text-gray-500 mt-2 text-lg">Using the Repair Description & Fixed Comment Tools</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Training Module</h1>
+            <p class="text-gray-500 mt-2 text-lg">Using the Repair Description & Fixed Comment Generators</p>
         </div>
 
-        <!-- Section: The Importance of Standardization -->
-        <section>
-            <h2 id="why-it-matters">Why Standardization Matters</h2>
-            <p class="text-gray-700 leading-relaxed">
-                Using standardized descriptions and comments is one of the most important things we can do to improve our efficiency and service quality. When everyone uses the same format, we create clean, reliable data.
-            </p>
-            <ul class="list-disc list-inside mt-4 space-y-2 text-gray-700">
-                <li><strong>Faster Analysis:</strong> Clean data allows us to quickly identify trends, like a specific part failing more often than others.</li>
-                <li><strong>Better Inventory Management:</strong> We can accurately track which parts are used most frequently and ensure we always have them in stock.</li>
-                <li><strong>Improved Consistency:</strong> Every customer receives clear and consistent communication about their repair.</li>
-                <li><strong>Saves Time:</strong> These tools make logging your work faster and easier, eliminating guesswork.</li>
+        <!-- Section: Trainee Name -->
+        <section class="mb-12">
+            <label for="trainee-name" class="block text-sm font-medium text-gray-700">Enter your full name to personalize your certificate:</label>
+            <input type="text" id="trainee-name" class="mt-1 block w-full md:w-1/2 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., Jane Doe">
+        </section>
+
+        <!-- Section: Training Progress -->
+        <section class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-16">
+            <h3 class="font-bold text-xl text-gray-800 mb-4">Your Onboarding Progress</h3>
+            <ul class="space-y-3">
+                <li id="task-1" class="task-list-item flex items-center text-gray-700" data-completed="false">
+                    <i class="fa-regular fa-circle mr-3 text-gray-400"></i> Generate a multi-part repair description.
+                </li>
+                <li id="task-2" class="task-list-item flex items-center text-gray-700" data-completed="false">
+                    <i class="fa-regular fa-circle mr-3 text-gray-400"></i> Find and copy a fixed comment.
+                </li>
+                <li id="task-3" class="task-list-item flex items-center text-gray-700" data-completed="false">
+                    <i class="fa-regular fa-circle mr-3 text-gray-400"></i> Complete the knowledge check.
+                </li>
             </ul>
         </section>
 
-        <!-- Section: Repair Description Generator -->
-        <section>
-            <h2 id="repair-generator">How to Use the Repair Description Generator</h2>
-            <p class="text-gray-700 leading-relaxed mb-6">
-                This tool is for creating the main repair description when you have replaced one or more physical parts.
-            </p>
-            <div class="step">
-                <div class="step-number">1</div>
-                <div>
-                    <h3 class="font-semibold text-gray-800">Select Your Language</h3>
-                    <p class="text-gray-600">Choose EN, FR, or NL at the top. The tool will translate everything for you.</p>
-                </div>
+        <!-- Section: Why It Matters -->
+        <section class="mb-16">
+            <h2 id="why-it-matters">Why Standardization Matters</h2>
+            <p class="text-gray-700 leading-relaxed">Using standardized descriptions and comments is crucial for our efficiency and service quality. When everyone uses the same format, we create clean, reliable data that helps us improve our services.</p>
+        </section>
+
+        <!-- Section: Interactive Repair Description Generator -->
+        <section class="mb-16">
+            <h2 id="repair-generator">Practice: Repair Description Generator</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">This tool is for creating the main repair description when you replace physical parts. Follow the steps below to practice.</p>
+            <div class="pro-tip p-4 rounded-md mb-6">
+                <p class="font-semibold text-yellow-800"><i class="fa-solid fa-lightbulb mr-2"></i>Pro Tip</p>
+                <p class="text-sm text-yellow-700">Use this tool whenever an Engineer performs a physical part replacement or a software service. For anything else, like an accessory exchange, use the Fixed Comment Generator.</p>
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div>
-                    <h3 class="font-semibold text-gray-800">Choose a Category</h3>
-                    <p class="text-gray-600">Use the tabs (Regular Device, Foldable, etc.) to find the components you worked on.</p>
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                <p class="font-semibold text-lg mb-4 text-center text-indigo-600">Your Task: A customer's phone needs a new Display and a new Battery. Generate the correct description in English.</p>
+                <div class="mb-4">
+                    <strong class="text-gray-800">Step 1: Select Language</strong>
+                    <div id="lang-selector" class="flex space-x-2 mt-2">
+                        <button data-lang="EN" class="px-4 py-2 rounded-md bg-blue-600 text-white font-semibold shadow">EN</button>
+                        <button data-lang="FR" class="px-4 py-2 rounded-md bg-white text-gray-700 font-semibold border border-gray-300 hover:bg-gray-100">FR</button>
+                        <button data-lang="NL" class="px-4 py-2 rounded-md bg-white text-gray-700 font-semibold border border-gray-300 hover:bg-gray-100">NL</button>
+                    </div>
                 </div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div>
-                    <h3 class="font-semibold text-gray-800">Select All Replaced Parts</h3>
-                    <p class="text-gray-600">Click on every part you replaced. The tool will remember your selections even if you switch tabs (e.g., selecting a Display from "Regular Device" and a Screen Protector from "Services").</p>
+                <div class="mb-4">
+                    <strong class="text-gray-800">Step 2 & 3: Choose Category and Select Parts</strong>
+                    <div class="border-b border-gray-300 mt-2">
+                        <nav id="category-tabs" class="-mb-px flex space-x-4" aria-label="Tabs">
+                            <button data-tab="regular" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm text-blue-600 border-blue-600" aria-selected="true">Regular Device</button>
+                            <button data-tab="foldable" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" aria-selected="false">Foldable</button>
+                            <button data-tab="services" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" aria-selected="false">Services</button>
+                        </nav>
+                    </div>
+                    <div id="parts-container" class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
                 </div>
-            </div>
-            <div class="step">
-                <div class="step-number">4</div>
                 <div>
-                    <h3 class="font-semibold text-gray-800">Copy the Description</h3>
-                    <p class="text-gray-600">The description is generated automatically in the text box at the bottom. Click the "Copy" button to copy it to your clipboard, then paste it into the ticket.</p>
+                    <strong class="text-gray-800">Step 4: Copy the Description</strong>
+                    <div class="mt-2 relative">
+                        <textarea id="output-description" rows="3" class="w-full p-3 pr-24 rounded-lg bg-white border border-gray-300 text-gray-800" readonly></textarea>
+                        <button id="copy-description-btn" class="absolute top-1/2 right-3 -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded-lg flex items-center"><i class="fa-regular fa-copy mr-2"></i> Copy</button>
+                    </div>
+                    <div id="description-feedback" class="mt-3 text-center h-5"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Section: Fixed Comment Generator -->
-        <section>
-            <h2 id="comment-generator">How to Use the Fixed Comment Tool</h2>
-            <p class="text-gray-700 leading-relaxed mb-6">
-                This tool is for all other standard ticket comments, such as accessory exchanges, software updates, or closing a ticket for other reasons.
-            </p>
-            <div class="step">
-                <div class="step-number">1</div>
-                <div>
-                    <h3 class="font-semibold text-gray-800">Select a Category</h3>
-                    <p class="text-gray-600">In the left-hand menu, click on the category that matches your situation (e.g., "Accessory Exchange").</p>
-                </div>
+        <!-- Section: Interactive Fixed Comment Tool -->
+        <section class="mb-16">
+            <h2 id="comment-generator">Practice: Fixed Comment Generator</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">This tool is for all tickets created by the front of house (FOH). Practice by finding the correct comment for the following scenario.</p>
+            <div class="pro-tip p-4 rounded-md mb-6">
+                <p class="font-semibold text-yellow-800"><i class="fa-solid fa-lightbulb mr-2"></i>Pro Tip</p>
+                <p class="text-sm text-yellow-700">This tool is perfect for Service Experts handling tasks that don't involve physical repairs, like accessory exchanges or documenting a "No Fault Found" status.</p>
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div>
-                    <h3 class="font-semibold text-gray-800">Find and Copy the Comment</h3>
-                    <p class="text-gray-600">The relevant comments will appear on the right. Find the exact comment you need and click its "Copy" button.</p>
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                 <p class="font-semibold text-lg mb-4 text-center text-indigo-600">Your Task: A customer is exchanging a faulty charger under warranty. Find and copy the appropriate comment.</p>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/3">
+                        <strong class="text-gray-800">Step 1: Select a Category</strong>
+                        <div id="comment-categories" class="mt-2 space-y-2">
+                            <button data-comment-cat="accessory" class="w-full text-left p-3 rounded-lg border bg-white hover:bg-indigo-50 hover:border-indigo-300">Accessory Exchange</button>
+                            <button data-comment-cat="software" class="w-full text-left p-3 rounded-lg border bg-white hover:bg-indigo-50 hover:border-indigo-300">Software Update</button>
+                            <button data-comment-cat="no-fault" class="w-full text-left p-3 rounded-lg border bg-white hover:bg-indigo-50 hover:border-indigo-300">No Fault Found</button>
+                        </div>
+                    </div>
+                    <div class="md:w-2/3">
+                        <strong class="text-gray-800">Step 2: Find and Copy the Comment</strong>
+                        <div id="comments-list" class="mt-2 space-y-3">
+                           <p class="text-gray-500 text-center p-4">Select a category to see comments.</p>
+                        </div>
+                         <div id="comment-feedback" class="mt-3 text-center h-5"></div>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <!-- Section: Best Practices -->
-        <section>
-            <h2 id="best-practices">Best Practices</h2>
-            <div class="space-y-4">
-                <div class="best-practice p-4 rounded-lg">
-                    <h3 class="font-semibold text-gray-800">Always Use the Tools First</h3>
-                    <p class="text-gray-600">These tools should be your primary way of creating descriptions and comments. This guarantees consistency across all 10 stores.</p>
-                </div>
-                <div class="best-practice p-4 rounded-lg">
-                    <h3 class="font-semibold text-gray-800">Report Missing Items</h3>
-                    <p class="text-gray-600">If a part, service, or standard comment you need is not in the tools, please notify your manager. This is valuable feedback that helps us keep the tools up-to-date for everyone.</p>
-                </div>
-                <div class="best-practice p-4 rounded-lg">
-                    <h3 class="font-semibold text-gray-800">Avoid Modifying the Text</h3>
-                    <p class="text-gray-600">The goal is to use the exact text copied from the tools. Please do not change the wording unless it's absolutely necessary to add a specific detail (like a unique part number).</p>
-                </div>
+        <!-- Section: Knowledge Check -->
+        <section class="mb-16">
+            <h2 id="knowledge-check">Test Your Knowledge</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">Answer the questions below to complete your training. The questions and answers are randomized each time.</p>
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                 <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Quiz</h3>
+                    <div id="quiz-timer" class="text-lg font-mono font-semibold text-blue-600">00:00</div>
+                 </div>
+                 <div id="quiz-container" class="space-y-6"></div>
+                 <button id="submit-quiz-btn" class="w-full mt-6 bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400">Submit Answers</button>
+                 <div id="quiz-summary-feedback" class="mt-4 text-center"></div>
+            </div>
+        </section>
+
+        <!-- Section: Completion Certificate -->
+        <section id="completion-certificate" class="hidden p-8 md:p-12 rounded-lg text-center">
+            <div class="mb-4">
+                <i class="fa-solid fa-award text-6xl text-yellow-500"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 border-none mt-0">Certificate of Completion</h2>
+            <p class="text-gray-600 text-lg mt-2">This certifies that</p>
+            <p id="certificate-name" class="text-2xl font-bold text-blue-700 my-4"></p>
+            <p class="text-gray-600 text-lg">has successfully completed the interactive training module for the Description & Comment Generators.</p>
+            <p id="certificate-date" class="text-gray-500 mt-4"></p>
+            <div class="mt-8 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <p class="font-semibold text-blue-800">Next Step:</p>
+                <p class="text-blue-700">Please take a screenshot of this certificate and upload it to your personal folder in SharePoint to finalize your onboarding for this task.</p>
             </div>
         </section>
 
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- DATA ---
+    const translations = { EN: { prefix: "Replaced:", parts: { display: "Display", battery: "Battery", charging_port: "Charging Port", back_cover: "Back Cover", main_camera: "Main Camera", hinge: "Hinge Assembly", inner_display: "Inner Folding Display", screen_protector: "Screen Protector Application", data_transfer: "Data Transfer Service", software_update: "Software Update" }, comments: { accessory: { warranty: "Exchanged faulty accessory under warranty.", out_of_warranty: "Exchanged accessory, out of warranty." }, software: { update: "Performed software update to the latest version.", reinstall: "Completed full OS reinstallation." }, no_fault: { test_ok: "Device passed all hardware and software tests. No fault found.", could_not_replicate: "Could not replicate customer reported issue." } } }, FR: { prefix: "Remplacé:", parts: { display: "Écran", battery: "Batterie", charging_port: "Port de charge", back_cover: "Coque arrière", main_camera: "Caméra principale", hinge: "Ensemble charnière", inner_display: "Écran pliant interne", screen_protector: "Application de protection d'écran", data_transfer: "Service de transfert de données", software_update: "Mise à jour logicielle" }, comments: { accessory: { warranty: "Accessoire défectueux échangé sous garantie.", out_of_warranty: "Accessoire échangé, hors garantie." }, software: { update: "Mise à jour logicielle effectuée vers la dernière version.", reinstall: "Réinstallation complète du système d'exploitation terminée." }, no_fault: { test_ok: "L'appareil a passé tous les tests matériels et logiciels. Aucun défaut trouvé.", could_not_replicate: "Impossible de reproduire le problème signalé par le client." } } }, NL: { prefix: "Vervangen:", parts: { display: "Scherm", battery: "Batterij", charging_port: "Oplaadpoort", back_cover: "Achterkant", main_camera: "Hoofdcamera", hinge: "Scharnier montage", inner_display: "Binnenste vouwscherm", screen_protector: "Schermbeschermer aangebracht", data_transfer: "Gegevensoverdracht service", software_update: "Software-update" }, comments: { accessory: { warranty: "Defect accessoire onder garantie omgeruild.", out_of_warranty: "Accessoire omgeruild, buiten garantie." }, software: { update: "Software-update uitgevoerd naar de nieuwste versie.", reinstall: "Volledige herinstallatie van het besturingssysteem voltooid." }, no_fault: { test_ok: "Apparaat heeft alle hardware- en softwaretests doorstaan. Geen fout gevonden.", could_not_replicate: "Het door de klant gemelde probleem kon niet worden gerepliceerd." } } } };
+    const partsData = { regular: ['display', 'battery', 'charging_port', 'back_cover', 'main_camera'], foldable: ['display', 'battery', 'inner_display', 'hinge', 'back_cover'], services: ['screen_protector', 'data_transfer', 'software_update'] };
+    let quizData = [ { id: 'q1', question: "What is the MAIN reason we use standardized descriptions and comments?", options: [ { key: 'a', text: "To make tickets look nicer." }, { key: 'b', text: "To create clean, reliable data for analysis and consistency." }, { key: 'c', text: "To automatically translate comments for managers." } ], correct: 'b' }, { id: 'q2', question: "An Engineer replaces a part that is NOT listed in the Repair Description Generator. What is the correct procedure?", options: [ { key: 'a', text: "Write a completely custom description from scratch." }, { key: 'b', text: "Ignore the part in the ticket documentation." }, { key: 'c', text: "Notify their manager so the tool can be updated for everyone." } ], correct: 'c' }, { id: 'q3', question: "A Service Expert is handling a customer who is only exchanging a faulty charger. Which tool is designed for this task?", options: [ { key: 'a', text: "The Fixed Comment Generator." }, { key: 'b', text: "The Repair Description Generator." }, { key: 'c', text: "Both tools should be used." }, { key: 'd', text: "Neither, this doesn't need a comment." } ], correct: 'a' }, { id: 'q4', question: "An Engineer replaces a phone's battery and also performs a software update. What is the correct way to document this?", options: [ { key: 'a', text: "Use the Repair Description Generator, selecting both 'Battery' and 'Software Update' from the relevant tabs." }, { key: 'b', text: "Use the Repair Description Generator for the battery, and the separate Fixed Comment Generator for the software update." }, { key: 'c', text: "Write a single custom note describing both actions, ignoring the tools." } ], correct: 'a' }, { id: 'q5', question: "The Repair Description Generator is primarily intended for which role?", options: [ { key: 'a', text: "Service Experts handling customer inquiries." }, { key: 'b', text: "Engineers performing hardware replacements and related services." }, { key: 'c', text: "All staff members equally." } ], correct: 'b' } ];
+
+    // --- STATE ---
+    let currentLang = 'EN';
+    let selectedParts = new Set();
+    let currentCategory = 'regular';
+    let userQuizAnswers = {};
+    let quizStartTime = null;
+    let quizTimerInterval = null;
+
+    // --- ELEMENTS ---
+    const traineeNameInput = document.getElementById('trainee-name');
+    const langSelector = document.getElementById('lang-selector');
+    const categoryTabs = document.getElementById('category-tabs');
+    const partsContainer = document.getElementById('parts-container');
+    const outputDescription = document.getElementById('output-description');
+    const copyDescriptionBtn = document.getElementById('copy-description-btn');
+    const descriptionFeedback = document.getElementById('description-feedback');
+    const commentCategories = document.getElementById('comment-categories');
+    const commentsList = document.getElementById('comments-list');
+    const commentFeedback = document.getElementById('comment-feedback');
+    const quizContainer = document.getElementById('quiz-container');
+    const submitQuizBtn = document.getElementById('submit-quiz-btn');
+    const quizSummaryFeedback = document.getElementById('quiz-summary-feedback');
+    const quizTimerDisplay = document.getElementById('quiz-timer');
+    const completionCertificate = document.getElementById('completion-certificate');
+    const certificateName = document.getElementById('certificate-name');
+    const certificateDate = document.getElementById('certificate-date');
+
+    // --- UTILITY FUNCTIONS ---
+    function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
+    function copyToClipboard(text, feedbackEl) { if (!text) return; const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.focus(); ta.select(); try { const ok = document.execCommand('copy'); if (ok) { feedbackEl.innerHTML = `<p class="text-green-600 font-semibold"><i class="fa-solid fa-check-circle mr-2"></i>Copied!</p>`; } else { feedbackEl.innerHTML = `<p class="text-red-600 font-semibold">Copy failed.</p>`; } } catch (err) { console.error('Copy failed', err); feedbackEl.innerHTML = `<p class="text-red-600 font-semibold">Copy failed.</p>`; } setTimeout(() => { feedbackEl.innerHTML = '' }, 2000); document.body.removeChild(ta); }
+    
+    // --- RENDER & LOGIC FUNCTIONS ---
+    function checkOverallCompletion() {
+        const isTask1Done = document.getElementById('task-1').dataset.completed === 'true';
+        const isTask2Done = document.getElementById('task-2').dataset.completed === 'true';
+        const isTask3Done = document.getElementById('task-3').dataset.completed === 'true';
+
+        if (isTask1Done && isTask2Done && isTask3Done) {
+            const traineeName = traineeNameInput.value.trim() || "Valued Team Member";
+            certificateName.textContent = traineeName;
+            certificateDate.textContent = `Completed on: ${new Date().toLocaleDateString()}`;
+            completionCertificate.classList.remove('hidden');
+            completionCertificate.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function updateTaskStatus(taskId, isCompleted) {
+        const taskItem = document.getElementById(taskId);
+        const icon = taskItem.querySelector('i');
+        taskItem.dataset.completed = String(isCompleted);
+        if (isCompleted) {
+            icon.className = 'fa-solid fa-circle-check mr-3 text-gray-400';
+        } else {
+            icon.className = 'fa-regular fa-circle mr-3 text-gray-400';
+        }
+        checkOverallCompletion();
+    }
+
+    function renderParts() { partsContainer.innerHTML = ''; partsData[currentCategory].forEach(key => { const btn = document.createElement('button'); btn.className = 'part-button p-3 text-sm font-medium border rounded-lg bg-white hover:border-blue-500 transition-all'; btn.dataset.part = key; btn.dataset.selected = selectedParts.has(key); btn.textContent = translations[currentLang].parts[key]; partsContainer.appendChild(btn); }); }
+    function generateDescription() { if (selectedParts.size === 0) { outputDescription.value = ''; return; } const parts = translations[currentLang].parts; const names = Array.from(selectedParts).map(key => parts[key]); outputDescription.value = `${translations[currentLang].prefix} ${names.join(', ')}.`; if (currentLang === 'EN' && selectedParts.has('display') && selectedParts.has('battery')) { descriptionFeedback.innerHTML = `<p class="text-green-600 font-semibold"><i class="fa-solid fa-check-circle mr-2"></i>Correct! Task complete.</p>`; updateTaskStatus('task-1', true); } else { descriptionFeedback.innerHTML = ''; updateTaskStatus('task-1', false); } }
+    function renderComments(category) { commentsList.innerHTML = ''; const comments = translations[currentLang].comments[category]; if (!comments) return; Object.entries(comments).forEach(([key, text]) => { const div = document.createElement('div'); div.className = 'flex items-center justify-between p-3 bg-white rounded-lg border'; div.innerHTML = `<p class="text-gray-700 text-sm mr-4">${text}</p><button data-comment-key="${key}" data-comment-cat="${category}" class="copy-comment-btn flex-shrink-0 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded-lg flex items-center text-sm"><i class="fa-regular fa-copy mr-2"></i> Copy</button>`; commentsList.appendChild(div); }); }
+    function renderQuiz() { quizContainer.innerHTML = ''; shuffleArray(quizData); quizData.forEach((q, index) => { shuffleArray(q.options); const div = document.createElement('div'); div.className = 'quiz-question'; div.dataset.id = q.id; let opts = q.options.map(opt => `<button data-option="${opt.key}" class="quiz-option w-full text-left p-3 rounded-lg border bg-white">${opt.text}</button>`).join(''); div.innerHTML = `<p class="font-semibold text-gray-800">${index + 1}. ${q.question}</p><div class="mt-2 space-y-2">${opts}</div><div class="quiz-feedback p-3 mt-2 rounded-lg text-sm"></div>`; quizContainer.appendChild(div); }); }
+    function handleCommentCopy(e) { const btn = e.target.closest('.copy-comment-btn'); if (!btn) return; const key = btn.dataset.commentKey; const cat = btn.dataset.commentCat; const text = translations[currentLang].comments[cat][key]; copyToClipboard(text, commentFeedback); if (cat === 'accessory' && key === 'warranty') { commentFeedback.innerHTML = `<p class="text-green-600 font-semibold"><i class="fa-solid fa-check-circle mr-2"></i>Excellent! Task complete.</p>`; updateTaskStatus('task-2', true); } else { commentFeedback.innerHTML = `<p class="text-red-600 font-semibold"><i class="fa-solid fa-times-circle mr-2"></i>Not the right comment for this task.</p>`; updateTaskStatus('task-2', false); } setTimeout(() => { commentFeedback.innerHTML = '' }, 2000); }
+    function startQuizTimer() { quizTimerInterval = setInterval(() => { const elapsed = Math.floor((new Date() - quizStartTime) / 1000); const mins = String(Math.floor(elapsed / 60)).padStart(2, '0'); const secs = String(elapsed % 60).padStart(2, '0'); quizTimerDisplay.textContent = `${mins}:${secs}`; }, 1000); }
+    
+    // --- EVENT LISTENERS ---
+    langSelector.addEventListener('click', (e) => { if (e.target.tagName !== 'BUTTON') return; currentLang = e.target.dataset.lang; langSelector.querySelectorAll('button').forEach(btn => { btn.className = 'px-4 py-2 rounded-md bg-white text-gray-700 font-semibold border border-gray-300 hover:bg-gray-100'; }); e.target.className = 'px-4 py-2 rounded-md bg-blue-600 text-white font-semibold shadow'; renderParts(); generateDescription(); const selCat = commentCategories.querySelector('[aria-selected="true"]'); if (selCat) renderComments(selCat.dataset.commentCat); });
+    categoryTabs.addEventListener('click', (e) => { if (e.target.tagName !== 'BUTTON') return; currentCategory = e.target.dataset.tab; categoryTabs.querySelectorAll('button').forEach(btn => { btn.setAttribute('aria-selected', 'false'); btn.className = 'tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'; }); e.target.setAttribute('aria-selected', 'true'); e.target.className = 'tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm text-blue-600 border-blue-600'; renderParts(); });
+    partsContainer.addEventListener('click', (e) => { if (!e.target.classList.contains('part-button')) return; const key = e.target.dataset.part; if (selectedParts.has(key)) { selectedParts.delete(key); e.target.dataset.selected = 'false'; } else { selectedParts.add(key); e.target.dataset.selected = 'true'; } generateDescription(); });
+    copyDescriptionBtn.addEventListener('click', () => { copyToClipboard(outputDescription.value, descriptionFeedback); });
+    commentCategories.addEventListener('click', (e) => { const btn = e.target.closest('button'); if (!btn) return; commentCategories.querySelectorAll('button').forEach(b => { b.setAttribute('aria-selected', 'false'); b.classList.remove('bg-indigo-100', 'border-indigo-400'); }); btn.setAttribute('aria-selected', 'true'); btn.classList.add('bg-indigo-100', 'border-indigo-400'); renderComments(btn.dataset.commentCat); commentFeedback.innerHTML = ''; });
+    commentsList.addEventListener('click', handleCommentCopy);
+    quizContainer.addEventListener('click', (e) => { const btn = e.target.closest('.quiz-option'); if (!btn) return; if (!quizStartTime) { quizStartTime = new Date(); startQuizTimer(); } const qDiv = btn.closest('.quiz-question'); const qId = qDiv.dataset.id; const optKey = btn.dataset.option; qDiv.querySelectorAll('.quiz-option').forEach(opt => opt.dataset.selected = 'false'); btn.dataset.selected = 'true'; userQuizAnswers[qId] = optKey; });
+    submitQuizBtn.addEventListener('click', () => { clearInterval(quizTimerInterval); let correct = 0; const questions = quizContainer.querySelectorAll('.quiz-question'); questions.forEach(qDiv => { const qId = qDiv.dataset.id; const qData = quizData.find(q => q.id === qId); const uAns = userQuizAnswers[qId]; const fbEl = qDiv.querySelector('.quiz-feedback'); fbEl.style.display = 'block'; if (uAns === qData.correct) { correct++; fbEl.className = 'quiz-feedback p-3 mt-2 rounded-lg text-sm bg-green-100 text-green-800'; fbEl.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i>Correct!`; } else { fbEl.className = 'quiz-feedback p-3 mt-2 rounded-lg text-sm bg-red-100 text-red-800'; const correctText = qData.options.find(o => o.key === qData.correct).text; fbEl.innerHTML = `<i class="fa-solid fa-times-circle mr-2"></i>Not quite. Correct answer: <strong>${correctText}</strong>`; } }); const timeTaken = quizStartTime ? Math.floor((new Date() - quizStartTime) / 1000) : 0; if (correct === quizData.length) { quizSummaryFeedback.innerHTML = `<p class="text-green-600 font-bold text-lg"><i class="fa-solid fa-award mr-2"></i>Perfect score! (${timeTaken}s) You've passed the test.</p>`; updateTaskStatus('task-3', true); } else { quizSummaryFeedback.innerHTML = `<p class="text-orange-600 font-bold text-lg">You got ${correct} of ${quizData.length} correct. (${timeTaken}s) Please review and try again.</p>`; updateTaskStatus('task-3', false); } submitQuizBtn.disabled = true; });
+
+    // --- INITIALIZATION ---
+    renderParts();
+    generateDescription();
+    renderQuiz();
+});
+</script>
 
 </body>
 </html>
