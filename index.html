@@ -9,7 +9,6 @@
     <style>
         :root {
             --brand-blue: #006BEA;
-            --brand-blue-light: rgba(0, 107, 234, 0.1);
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -23,7 +22,7 @@
         }
         input:checked + .checkbox-card {
             border-color: var(--brand-blue);
-            background-color: var(--brand-blue-light);
+            background-color: rgba(0, 107, 234, 0.1);
         }
         input:checked + .checkbox-card .checkbox-icon {
             opacity: 1;
@@ -41,27 +40,26 @@
 <body class="bg-white flex items-center justify-center min-h-screen p-4">
 
     <div class="w-full max-w-3xl bg-white rounded-xl border border-gray-200 p-6 md:p-8">
-
-        <div class="text-center mb-4">
-            <h1 id="main-title" class="text-2xl md:text-3xl font-bold text-gray-800">Repair Description Generator</h1>
-            <p id="subtitle" class="text-gray-500 mt-1">Select the components and services to generate a standard repair description.</p>
-        </div>
-
-                <!-- Language Switcher -->
+        
+        <!-- Language Switcher -->
         <div class="flex justify-center mb-4 bg-gray-100 rounded-lg p-1">
             <button id="lang-en" class="lang-btn w-1/3 py-2 px-4 rounded-md font-semibold text-gray-700 active">EN</button>
             <button id="lang-fr" class="lang-btn w-1/3 py-2 px-4 rounded-md font-semibold text-gray-700">FR</button>
             <button id="lang-nl" class="lang-btn w-1/3 py-2 px-4 rounded-md font-semibold text-gray-700">NL</button>
         </div>
 
+        <div class="text-center mb-4">
+            <h1 id="main-title" class="text-2xl md:text-3xl font-bold text-gray-800">Repair Description Generator</h1>
+            <p id="subtitle" class="text-gray-500 mt-1">Select the components and services to generate a standard repair description.</p>
+        </div>
 
         <!-- Device Type Tabs -->
-        <div id="tab-container" class="flex justify-center mb-4 border-b border-gray-200">
+        <div id="tab-container" class="flex flex-wrap justify-center mb-4 border-b border-gray-200">
             <!-- Tabs will be dynamically inserted here -->
         </div>
 
         <!-- Component Selection Grid -->
-        <div id="component-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6 min-h-[200px]">
+        <div id="component-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6 min-h-[200px]">
             <!-- Checkboxes will be dynamically inserted here by JavaScript -->
         </div>
 
@@ -74,7 +72,7 @@
 
         <!-- Output Area -->
         <div>
-            <label id="output-label" for="output-desc" class="block text-sm font-medium text-gray-700 mb-1">Repair Description:</label>
+            <label id="output-label" for="output-desc" class="block text-sm font-medium text-gray-700 mb-1">Generated Description:</label>
             <div class="relative">
                 <textarea id="output-desc" rows="4" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2" style="--tw-ring-color: var(--brand-blue)" readonly placeholder="Your generated description will appear here..."></textarea>
                 <button id="copy-btn" class="absolute top-2 right-2 bg-gray-200 text-gray-600 hover:bg-gray-300 font-semibold py-1 px-3 rounded-md text-sm transition-colors duration-200">
@@ -157,19 +155,10 @@
                 ]
             },
             foldable: {
-                names: { en: 'Foldable', fr: 'Foldable', nl: 'Foldable' },
+                names: { en: 'Foldable', fr: 'Pliable', nl: 'Vouwbaar' },
                 components: [
                     { id: 'main_display', type: 'replacement', names: { en: 'Main Display', fr: 'Écran Principal', nl: 'Hoofdscherm' } },
                     { id: 'cover_display', type: 'replacement', names: { en: 'Cover Display', fr: 'Écran de Couverture', nl: 'Coverscherm' } },
-                    { id: 'mainboard', type: 'replacement', names: { en: 'Mainboard (PBA)', fr: 'Carte Mère (PBA)', nl: 'Moederbord (PBA)' } },
-                    { id: 'battery', type: 'replacement', names: { en: 'Battery', fr: 'Batterie', nl: 'Batterij' } },
-                    { id: 'charging_port', type: 'replacement', names: { en: 'Charging Port', fr: 'Port de Charge', nl: 'Oplaadpoort' } },
-                    { id: 'backglass', type: 'replacement', names: { en: 'Backglass', fr: 'Vitre Arrière', nl: 'Achterkant (Glas)' } },
-                    { id: 'cameras', type: 'replacement', names: { en: 'Camera(s)', fr: 'Caméra(s)', nl: 'Camera(\'s)' } },
-                    { id: 'front_camera', type: 'replacement', names: { en: 'Front Camera', fr: 'Caméra Avant', nl: 'Voorcamera' } },
-                    { id: 'speaker', type: 'replacement', names: { en: 'Speaker', fr: 'Haut-parleur', nl: 'Luidspreker' } },
-                    { id: 'power_button', type: 'replacement', names: { en: 'Power Button', fr: 'Bouton d\'alimentation', nl: 'Aan/uit-knop' } },
-                    { id: 'volume_buttons', type: 'replacement', names: { en: 'Volume Buttons', fr: 'Boutons de volume', nl: 'Volumeknoppen' } },
                     { id: 'hinge', type: 'replacement', names: { en: 'Hinge', fr: 'Charnière', nl: 'Scharnier' } },
                     { id: 'frame', type: 'replacement', names: { en: 'Frame', fr: 'Châssis', nl: 'Frame' } },
                     { id: 'pcap', type: 'replacement', names: { en: 'PCAP', fr: 'PCAP', nl: 'PCAP' } },
@@ -180,28 +169,36 @@
                 names: { en: 'Wearable', fr: 'Portable', nl: 'Wearable' },
                 components: [
                     { id: 'stylus', type: 'replacement', names: { en: 'Stylus', fr: 'Stylet', nl: 'Stylus' } },
-                    { id: 'left_bud', type: 'replacement', names: { en: 'Left Bud', fr: 'Bud gauche', nl: 'Linker Bud' } },
-                    { id: 'right_bud', type: 'replacement', names: { en: 'Right Bud', fr: 'Bud droit', nl: 'Rechter Bud' } },
+                    { id: 'left_bud', type: 'replacement', names: { en: 'Left Bud', fr: 'Écouteur gauche', nl: 'Linker oordopje' } },
+                    { id: 'right_bud', type: 'replacement', names: { en: 'Right Bud', fr: 'Écouteur droit', nl: 'Rechter oordopje' } },
                     { id: 'cradle', type: 'replacement', names: { en: 'Cradle (Charging Case)', fr: 'Boîtier de chargement', nl: 'Oplaadcase' } },
+                    { id: 'watch_strap', type: 'replacement', names: { en: 'Watch Strap', fr: 'Bracelet de montre', nl: 'Horlogebandje' } },
                 ]
             },
             services: {
                 names: { en: 'Services', fr: 'Services', nl: 'Services' },
                 components: [
+                    { id: 'software_update', type: 'status', names: { en: 'Software Update', fr: 'Mise à jour logicielle', nl: 'Software-update' }, sentences: { en: 'Your device has been updated with the latest software.', fr: 'Votre appareil a été mis à jour avec le dernier logiciel.', nl: 'Uw toestel is bijgewerkt met de nieuwste software.' } },
                     { id: 'unlocked_device', type: 'service', names: { en: 'Unlocked device', fr: 'Appareil déverrouillé', nl: 'Toestel ontgrendeld' } },
-                    { id: 'cleaned_buds', type: 'service', names: { en: 'Cleaned Galaxy Buds', fr: 'Galaxy Buds nettoyés', nl: 'Galaxy Buds gereinigd' } },
+                    { id: 'cleaned_buds', type: 'service', names: { en: 'Cleaned buds', fr: 'Écouteurs nettoyés', nl: 'Oordopjes gereinigd' } },
                     { id: 'cleaned_usb', type: 'service', names: { en: 'Cleaned USB port', fr: 'Port USB nettoyé', nl: 'USB-poort gereinigd' } },
+                    { id: 'device_healthcare', type: 'service', names: { en: 'Device healthcare', fr: 'Bilan de santé', nl: 'Toestel gezondheidscheck' } },
                     { id: 'insurance_quote', type: 'service', names: { en: 'Insurance quotation', fr: 'Devis pour assurance', nl: 'Prijsopgave verzekering' } },
-                    { id: 'data_recovery', type: 'service', names: { en: 'Data recovery', fr: 'Data recovery', nl: 'Data recovery' } },
-                    { id: 'data_transfer', type: 'service', names: { en: 'Data transfer', fr: 'Data transfer', nl: 'Data transfer' } },
-                    { id: 'screen_protector', type: 'replacement', names: { en: 'Screen protector', fr: 'Screen protector', nl: 'Screen protector' } },
-                    { id: 'offer_declined', type: 'status', names: { en: 'Price offer declined', fr: 'Offre de prix refusée', nl: 'Prijsopgave geweigerd' }, 
-                      sentences: { 
-                          en: 'Price offer has been declined by customer - Repair cancelled.', 
-                          fr: 'Offre de prix refusée par le client - Réparation annulée.', 
-                          nl: 'Prijsopgave geweigerd door de klant - Reparatie geannuleerd.' 
-                      } 
-                    },
+                    { id: 'data_recovery', type: 'service', names: { en: 'Data recovery', fr: 'Récupération de données', nl: 'Gegevensherstel' } },
+                    { id: 'data_transfer', type: 'service', names: { en: 'Data transfer', fr: 'Transfert de données', nl: 'Gegevensoverdracht' } },
+                    { id: 'screen_protector', type: 'replacement', names: { en: 'Screen Protector', fr: 'Protection d\'Écran', nl: 'Schermbeschermer' } },
+                ]
+            },
+            status: {
+                names: { en: 'Status / Outcome', fr: 'Statut / Résultat', nl: 'Status / Resultaat' },
+                components: [
+                    { id: 'no_defect_found', type: 'status', names: { en: 'No Defect Found', fr: 'Aucun défaut trouvé', nl: 'Geen defect gevonden' }, sentences: { en: 'No defect was found. The device has passed all our quality checks.', fr: 'Aucun défaut n\'a été trouvé. L\'appareil a passé tous nos contrôles de qualité.', nl: 'Er is geen defect gevonden. Het toestel heeft al onze kwaliteitscontroles doorstaan.' } },
+                    { id: 'device_exchanged', type: 'status', names: { en: 'Device Exchanged', fr: 'Appareil échangé', nl: 'Toestel omgeruild' }, sentences: { en: 'The device has been exchanged for a new unit.', fr: 'L\'appareil a été échangé contre une nouvelle unité.', nl: 'Het toestel is omgeruild voor een nieuw exemplaar.' } },
+                    { id: 'device_credited', type: 'status', names: { en: 'Device Credited', fr: 'Appareil crédité', nl: 'Toestel gecrediteerd' }, sentences: { en: 'The device has been credited.', fr: 'L\'appareil a été crédité.', nl: 'Het toestel is gecrediteerd.' } },
+                    { id: 'knox_detected', type: 'status', names: { en: 'Knox Profile Detected', fr: 'Profil Knox détecté', nl: 'Knox-profiel gedetecteerd' }, sentences: { en: 'A Knox profile was detected on the device. The repair has been cancelled.', fr: 'Un profil Knox a été détecté sur l\'appareil. La réparation a été annulée.', nl: 'Er is een Knox-profiel gedetecteerd op het toestel. De reparatie is geannuleerd.' } },
+                    { id: 'offer_declined', type: 'status', names: { en: 'Offer Declined', fr: 'Offre refusée', nl: 'Offerte geweigerd' }, sentences: { en: 'The price offer has been declined by the customer. The repair has been cancelled.', fr: 'L\'offre de prix a été refusée par le client. La réparation a été annulée.', nl: 'De prijsopgave is door de klant geweigerd. De reparatie is geannuleerd.' } },
+                    { id: 'offer_declined_scrap', type: 'status', names: { en: 'Offer Declined (Scrap)', fr: 'Offre refusée (Mise au rebut)', nl: 'Offerte geweigerd (Scrap)' }, sentences: { en: 'The price offer has been declined by the customer. The device will be scrapped.', fr: 'L\'offre de prix a été refusée par le client. L\'appareil sera mis au rebut.', nl: 'De prijsopgave is door de klant geweigerd. Het toestel wordt afgeschreven.' } },
+                    { id: 'price_offer_made', type: 'status', names: { en: 'Price Offer Made', fr: 'Offre de prix faite', nl: 'Prijsopgave gemaakt' }, sentences: { en: 'A price offer of EUR XXX has been made by the Service Expert.', fr: 'Une offre de prix de XXX EUR a été faite par l\'expert de service.', nl: 'Er is een prijsopgave van XXX EUR gemaakt door de Service Expert.' } },
                 ]
             }
         };
@@ -270,20 +267,20 @@
 
         function generateDescription() {
             const t = translations[currentLanguage];
-            const selectedStatus = document.querySelector("input[data-type='status']:checked");
+            const allComponents = Object.values(deviceTabs).flatMap(tab => tab.components);
+            
+            // Status items are exclusive and override everything else.
+            const selectedStatusId = Array.from(selectedComponentIds).find(id => {
+                const comp = allComponents.find(c => c.id === id);
+                return comp && comp.type === 'status';
+            });
 
-            if (selectedStatus) {
-                const componentId = selectedStatus.id;
-                for (const tabId in deviceTabs) {
-                    const component = deviceTabs[tabId].components.find(c => c.id === componentId);
-                    if (component && component.sentences) {
-                        outputDesc.value = component.sentences[currentLanguage];
-                        return;
-                    }
-                }
+            if (selectedStatusId) {
+                const statusComponent = allComponents.find(c => c.id === selectedStatusId);
+                outputDesc.value = statusComponent.sentences[currentLanguage];
+                return;
             }
             
-            const allComponents = Object.values(deviceTabs).flatMap(tab => tab.components);
             const selectedReplacements = [];
             const selectedServices = [];
 
@@ -291,11 +288,8 @@
                 const component = allComponents.find(c => c.id === id);
                 if (component) {
                     const name = component.names[currentLanguage].replace(/ \(.+\)/, '');
-                    if (component.type === 'replacement') {
-                        selectedReplacements.push(name);
-                    } else if (component.type === 'service') {
-                        selectedServices.push(name);
-                    }
+                    if (component.type === 'replacement') selectedReplacements.push(name);
+                    else if (component.type === 'service') selectedServices.push(name);
                 }
             });
 
@@ -360,10 +354,35 @@
 
         function handleSelectionChange(event) {
             if (event.target.name === 'component') {
-                if (event.target.checked) {
-                    selectedComponentIds.add(event.target.id);
+                const componentId = event.target.id;
+                const componentType = event.target.dataset.type;
+
+                // Logic for exclusive status selection
+                if (componentType === 'status') {
+                    if (event.target.checked) {
+                        // Uncheck all other boxes and only keep this one
+                        selectedComponentIds.clear();
+                        selectedComponentIds.add(componentId);
+                        renderUI(); // Re-render to show only the status is checked
+                    } else {
+                        selectedComponentIds.delete(componentId);
+                    }
                 } else {
-                    selectedComponentIds.delete(event.target.id);
+                     // If a status was previously selected, clear it
+                    const statusSelected = Array.from(selectedComponentIds).some(id => {
+                        const comp = Object.values(deviceTabs).flatMap(tab => tab.components).find(c => c.id === id);
+                        return comp && comp.type === 'status';
+                    });
+                    if (statusSelected) {
+                        selectedComponentIds.clear();
+                    }
+
+                    if (event.target.checked) {
+                        selectedComponentIds.add(componentId);
+                    } else {
+                        selectedComponentIds.delete(componentId);
+                    }
+                    renderUI(); // Re-render to clear status if needed
                 }
                 generateDescription();
             }
