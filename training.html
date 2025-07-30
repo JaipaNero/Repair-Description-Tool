@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Guide: Description & Comment Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #006BEA;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* A slightly off-white for better contrast */
+        }
+        h2 {
+            color: var(--brand-blue);
+            border-bottom: 2px solid var(--brand-blue);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .step-number {
+            flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--brand-blue);
+            color: white;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        .best-practice {
+            background-color: #f3f4f6;
+            border-left: 4px solid var(--brand-blue);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-xl border border-gray-200">
+
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Training Guide</h1>
+            <p class="text-gray-500 mt-2 text-lg">Using the Repair Description & Fixed Comment Tools</p>
+        </div>
+
+        <!-- Section: The Importance of Standardization -->
+        <section>
+            <h2 id="why-it-matters">Why Standardization Matters</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Using standardized descriptions and comments is one of the most important things we can do to improve our efficiency and service quality. When everyone uses the same format, we create clean, reliable data.
+            </p>
+            <ul class="list-disc list-inside mt-4 space-y-2 text-gray-700">
+                <li><strong>Faster Analysis:</strong> Clean data allows us to quickly identify trends, like a specific part failing more often than others.</li>
+                <li><strong>Better Inventory Management:</strong> We can accurately track which parts are used most frequently and ensure we always have them in stock.</li>
+                <li><strong>Improved Consistency:</strong> Every customer receives clear and consistent communication about their repair.</li>
+                <li><strong>Saves Time:</strong> These tools make logging your work faster and easier, eliminating guesswork.</li>
+            </ul>
+        </section>
+
+        <!-- Section: Repair Description Generator -->
+        <section>
+            <h2 id="repair-generator">How to Use the Repair Description Generator</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                This tool is for creating the main repair description when you have replaced one or more physical parts.
+            </p>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Select Your Language</h3>
+                    <p class="text-gray-600">Choose EN, FR, or NL at the top. The tool will translate everything for you.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Choose a Category</h3>
+                    <p class="text-gray-600">Use the tabs (Regular Device, Foldable, etc.) to find the components you worked on.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Select All Replaced Parts</h3>
+                    <p class="text-gray-600">Click on every part you replaced. The tool will remember your selections even if you switch tabs (e.g., selecting a Display from "Regular Device" and a Screen Protector from "Services").</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Copy the Description</h3>
+                    <p class="text-gray-600">The description is generated automatically in the text box at the bottom. Click the "Copy" button to copy it to your clipboard, then paste it into the ticket.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Fixed Comment Generator -->
+        <section>
+            <h2 id="comment-generator">How to Use the Fixed Comment Tool</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                This tool is for all other standard ticket comments, such as accessory exchanges, software updates, or closing a ticket for other reasons.
+            </p>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Select a Category</h3>
+                    <p class="text-gray-600">In the left-hand menu, click on the category that matches your situation (e.g., "Accessory Exchange").</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Find and Copy the Comment</h3>
+                    <p class="text-gray-600">The relevant comments will appear on the right. Find the exact comment you need and click its "Copy" button.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section: Best Practices -->
+        <section>
+            <h2 id="best-practices">Best Practices</h2>
+            <div class="space-y-4">
+                <div class="best-practice p-4 rounded-lg">
+                    <h3 class="font-semibold text-gray-800">Always Use the Tools First</h3>
+                    <p class="text-gray-600">These tools should be your primary way of creating descriptions and comments. This guarantees consistency across all 10 stores.</p>
+                </div>
+                <div class="best-practice p-4 rounded-lg">
+                    <h3 class="font-semibold text-gray-800">Report Missing Items</h3>
+                    <p class="text-gray-600">If a part, service, or standard comment you need is not in the tools, please notify your manager. This is valuable feedback that helps us keep the tools up-to-date for everyone.</p>
+                </div>
+                <div class="best-practice p-4 rounded-lg">
+                    <h3 class="font-semibold text-gray-800">Avoid Modifying the Text</h3>
+                    <p class="text-gray-600">The goal is to use the exact text copied from the tools. Please do not change the wording unless it's absolutely necessary to add a specific detail (like a unique part number).</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
