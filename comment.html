@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed Comments Tool</title>
+    <title>Fixed Comment Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -93,13 +93,11 @@
             "Leadpassing": [
                 "(SR: xxxxxxxx) Clearcoat Leadpassing"
             ],
-            "Premium Services": [
+            "Close With Other Reason": [
+                "(SR: xxxxxxxx) Reschedule: [new date] + [Reason]",
                 "(SR: xxxxxxxx) Paid Premium Service: Device health care 15,-",
                 "(SR: xxxxxxxx) Paid Premium Service: OOW buds cleaning 30,-",
                 "(SR: xxxxxxxx) Paid Premium Service: Data transfer 15,-"
-            ],
-            "Close With Other Reason": [
-                "(SR: xxxxxxxx) Reschedule: [new date] + [Reason]"
             ]
         };
 
@@ -180,7 +178,19 @@
                 activeCopyButton.classList.remove('copied');
             }
             
-            navigator.clipboard.writeText(text).then(() => {
+            // Create a temporary textarea element to hold the text
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            // Make it invisible
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                // Use the older, more compatible copy command
+                document.execCommand('copy');
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
                 activeCopyButton = button;
@@ -192,9 +202,12 @@
                        activeCopyButton = null;
                     }
                 }, 2000);
-            }).catch(err => {
+            } catch (err) {
                 console.error('Could not copy text: ', err);
-            });
+            }
+
+            // Clean up the temporary element
+            document.body.removeChild(textArea);
         }
 
         // --- EVENT LISTENERS ---
